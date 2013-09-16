@@ -1,0 +1,87 @@
+﻿*
+{
+	box-sizing:border-box;
+}
+
+body
+{
+	font: 10pt/14pt "Gill Sans MT",Helvetica,Arial,sans-serif;
+}
+
+#facilities
+{
+	width:23%;
+	height:98%;
+	
+	float:left;
+	margin-right:2%;
+}
+	#facilities label
+	{
+		padding: 0 0 0 5px;
+		width:23%;
+		display:inline-block;
+	}
+	#facilities input
+	{
+		width:75%;
+	}
+	#facilities ul
+	{
+		margin:10px 0 0;
+		padding:5px;
+		list-style:none;
+		height: 95%;
+		overflow: auto;
+		/*border:1px solid #BFBFBF;*/
+	}
+	#facilities li
+	{
+		padding:0 0;
+	}
+	#facilities li:hover
+	{
+		cursor: pointer;
+		text-decoration: underline;
+	}
+	#facilities h2
+	{
+		font-size:1.2em;
+		margin: 5px auto;
+		text-align:center;
+		text-transform: uppercase;
+		letter-spacing: 0.3em;
+		font-weight:normal;
+		color:#708CDF;
+	}
+	#facilities h2:after, #facilities h2:before
+	{
+		content:"";
+		margin: 2px 10%;
+		display:block;
+		height:1px;
+		background:#CCC;
+	}
+
+#map-canvas
+{
+	width:75%;
+	height:98%;
+	border:1px solid gray;
+}
+
+	#map-canvas h2
+	{
+		font-size:1em;
+		margin:0;
+	}
+
+	#map-canvas a
+	{
+		margin-left: 15px;
+	}
+	#map-canvas a:visited
+	{
+		color:#00f;
+	}
+

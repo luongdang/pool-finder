@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html />
+<html>
+<head>
+    <title>Toronto Pool Finder</title>
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD89G38rynAYYj9vw-20ZWdb7hklNxBZ-0&sensor=false"></script>
+	<script type="text/javascript" src="pools.js"></script>
+	<script type="text/javascript" src="google_maps.js"></script>
+	<link type="text/css" rel="Stylesheet" href="main.css" />
+</head>
+<body>
+	<div id="facilities">
+		<label for="facilitySearch">Search:</label>
+		<input type="search" name="facilitySearch" id="search"/>
+		<ul>
+		</ul>
+	</div>
+	<div id="map-canvas"></div>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			loadMap(document.getElementById('map-canvas'));
+
+			// Populate the facility list
+			var $ul = $('#facilities ul');
+			var city = null;
+			for (var i = 0; i < window.facilities.length; i++) {
+				if (city != window.facilities[i].city)
+				{
+					$ul.append('<h2>' + window.facilities[i].city + '</h2>');
+					city = window.facilities[i].city;
+				}
+				$ul.append('<li data-index="' + i + '">' + window.facilities[i].name + '</li>');
+			}
+
+			// When clicking on a facility name, pop up its info window
+			$ul.find('li')
+				.click(function (event) {
+					var index = $(this).data('index');
+					
+					if (index == undefined)
+						return;
+					
+					var marker = window.facilities[index].marker;
+					marker.infoWindow.open(_google_maps.map, marker);
+				});
+
+			// Handle searching
+			$('#search').keyup(function (event) {
+				$ul.find('li').each(function (index, ele) {
+					var searchTerm = $('#search').val().toLowerCase();
+					var facilityName = ele.innerText.toLowerCase();
+
+					if (facilityName.indexOf(searchTerm) == -1) {
+						$(ele).css('display', 'none');
+					} else {
+						$(ele).css('display', '');
+					}
+
+					$.each(window.facilities, function (index, ele) {
+						if (ele.name.toLowerCase().indexOf(searchTerm) == -1) {
+							ele.marker.setMap(null);
+						} else {
+							ele.marker.setMap(_google_maps.map);
+						}
+					});
+				});
+			});
+		});
+	</script>
+</body>
+</html>
