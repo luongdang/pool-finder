@@ -25,22 +25,21 @@
 			var $ul = $('#facilities ul');
 			var city = null;
 			for (var i = 0; i < window.facilities.length; i++) {
-				if (city != window.facilities[i].city)
-				{
+				if (city != window.facilities[i].city) {
 					$ul.append('<h2>' + window.facilities[i].city + '</h2>');
 					city = window.facilities[i].city;
 				}
-				$ul.append('<li data-index="' + i + '">' + window.facilities[i].name + '</li>');
+				$ul.append('<li data-index="' + i + '" data-plaintext="' + window.facilities[i].name + '">' + window.facilities[i].name + '</li>');
 			}
 
 			// When clicking on a facility name, pop up its info window
 			$ul.find('li')
 				.click(function (event) {
 					var index = $(this).data('index');
-					
+
 					if (index == undefined)
 						return;
-					
+
 					var marker = window.facilities[index].marker;
 					marker.infoWindow.open(_google_maps.map, marker);
 				});
@@ -48,20 +47,27 @@
 			// Handle searching
 			$('#search').keyup(function (event) {
 				$ul.find('li').each(function (index, ele) {
+					var $ele = $(ele);
 					var searchTerm = $('#search').val().toLowerCase();
-					var facilityName = ele.innerText.toLowerCase();
+					var facilityName = $ele.text().toLowerCase();
+					var plaintext = $ele.data('plaintext');
 
 					if (facilityName.indexOf(searchTerm) == -1) {
-						$(ele).css('display', 'none');
+						$ele.css('display', 'none');
+						$ele.text(plaintext);
 					} else {
-						$(ele).css('display', '');
+						$ele.css('display', '');
+
+						// Highlight the matching part
+						var regex = new RegExp('(' + searchTerm + ')', 'gi');
+						$ele.html(plaintext.replace(regex, '<span class="highlight">$1</span>'));
 					}
 
-					$.each(window.facilities, function (index, ele) {
-						if (ele.name.toLowerCase().indexOf(searchTerm) == -1) {
-							ele.marker.setMap(null);
+					$.each(window.facilities, function (index, f) {
+						if (f.name.toLowerCase().indexOf(searchTerm) == -1) {
+							f.marker.setMap(null);
 						} else {
-							ele.marker.setMap(_google_maps.map);
+							f.marker.setMap(_google_maps.map);
 						}
 					});
 				});

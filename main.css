@@ -8,6 +8,11 @@ body
 	font: 10pt/14pt "Gill Sans MT",Helvetica,Arial,sans-serif;
 }
 
+.highlight
+{
+	background-color:yellow;
+}
+
 #facilities
 {
 	width:23%;
