@@ -56,8 +56,12 @@ function address2Location(addr) {
 function getLatLng(addr) {
 	$.when(address2Location(addr))
 		.done(function (result) {
-			var location = result[0].geometry.location;
-			console.log(result[0].formatted_address + ' = { "lat" : ' + location.lat() + ', "lng" : ' + location.lng() + '}');
+			for (i = 0; i < result.length ; i++)
+			{
+				var loc = result[i].geometry.location;
+				console.log(i + '/' + (result.length - 1) + ': '
+							  + result[i].formatted_address + ' = { "lat" : ' + loc.lat() + ', "lng" : ' + loc.lng() + '}');
+			}
 		})
 		.fail(function (msg) {
 			console.log (msg);
