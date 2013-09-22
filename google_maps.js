@@ -16,7 +16,7 @@ function address2Location(addr) {
 	_google_maps.geocoder.geocode({ address: addr }, function (result, status) {
 		switch (status) {
 			case google.maps.GeocoderStatus.OK:
-				deferred.resolve(result[0].geometry.location);
+				deferred.resolve(result);
 				break;
 
 			case google.maps.GeocoderStatus.INVALID_REQUEST:
@@ -55,8 +55,9 @@ function address2Location(addr) {
 // This function should be used un the debugger only
 function getLatLng(addr) {
 	$.when(address2Location(addr))
-		.done(function (location) {
-			console.log(addr + ' = { "lat" : ' + location.pb + ', "lng" : ' + location.qb + '}');
+		.done(function (result) {
+			var location = result[0].geometry.location;
+			console.log(result[0].formatted_address + ' = { "lat" : ' + location.lat() + ', "lng" : ' + location.lng() + '}');
 		})
 		.fail(function (msg) {
 			console.log (msg);
